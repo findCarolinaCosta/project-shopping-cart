@@ -106,10 +106,27 @@ const fetchProduct = async () => fetch(`${site}/sites/MLB/search?q=computador`)
     });
   });
 
+/*==================== NAV MOBILE ====================*/
+const header = document.getElementById("header-mobile"),
+  navCart = document.getElementById("nav-cart"),
+  navClose = document.getElementById("nav-close");
+
+if (navCart) {
+  navCart.addEventListener("click", () => {
+    header.classList.add("show-menu");
+  });
+}
+
+if (navClose) {
+  navClose.addEventListener("click", () => {
+    header.classList.remove("show-menu");
+  });
+}
+/*========================================*/
+
 window.onload = () => {
-  fetchProduct()
-    .then(() => document.querySelector('.loading').remove());
-  btnCleanCart.addEventListener('click', getBtnEmprtyCart);
-  cartItems.innerHTML = localStorage.getItem('shopping');
-  cartItems.addEventListener('click', cartItemClickListener);
+  fetchProduct().then(() => {
+    document.querySelector(".loading").remove();
+    document.querySelector(".display__none").classList.remove("display__none");
+  });
 };
