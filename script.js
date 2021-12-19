@@ -1,22 +1,22 @@
-const site = 'https://api.mercadolibre.com';
-const cartItems = document.querySelector('.cart__items');
-const btnCleanCart = document.querySelector('.empty-cart');
-const itemsSection = document.querySelector('.items');
+const site = "https://api.mercadolibre.com";
+const cartItems = document.querySelector(".cart__items");
+const btnCleanCart = document.querySelector(".empty-cart");
+const itemsSection = document.querySelector(".items");
 
 const saveCart = () => {
-  localStorage.setItem('shopping', cartItems.innerHTML);
+  localStorage.setItem("shopping", cartItems.innerHTML);
 };
 
 function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
+  const img = document.createElement("img");
+  img.className = "item__image";
   img.src = imageSource;
   return img;
 }
 
 function getBtnEmprtyCart() {
-  cartItems.innerHTML = '';
-  document.getElementById('tprice').innerText = 0;
+  cartItems.innerHTML = "";
+  document.getElementById("tprice").innerText = 0;
   saveCart();
 }
 
@@ -28,23 +28,25 @@ function createCustomElement(element, className, innerText) {
 }
 
 const getTotalPrice = (price, operation) => {
-  const totalPrice = document.querySelector('.total-price');
+  const totalPrice = document.querySelector(".total-price");
   let total = 0;
   if (totalPrice.innerText) total = parseFloat(totalPrice.innerText);
-  if (operation === 'sum') total += price;
-  if (operation === 'sub') total -= price;
+  if (operation === "sum") total += price;
+  if (operation === "sub") total -= price;
   totalPrice.innerText = total > 0 ? total : 0;
-  localStorage.setItem('total', total);
+  localStorage.setItem("total", total);
 };
 
 function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
+  const section = document.createElement("section");
+  section.className = "item";
 
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createCustomElement("span", "item__sku", sku));
+  section.appendChild(createCustomElement("span", "item__title", name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement("button", "item__add", "Adicionar ao carrinho!")
+  );
   itemsSection.appendChild(section);
   return section;
 }
@@ -57,12 +59,12 @@ function cartItemClickListener(event) {
   event.target.remove(event);
   saveCart();
   const li = event.path[0];
-  getTotalPrice((li.innerText.split('PRICE: $').pop()), 'sub');
+  getTotalPrice(li.innerText.split("PRICE: $").pop(), "sub");
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
+  const li = document.createElement("li");
+  li.className = "cart__item";
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   return li;
 }
@@ -73,7 +75,7 @@ function receiveDataItem(item) {
     name: item.title,
     salePrice: item.price,
   });
-  getTotalPrice(item.price, 'sum');
+  getTotalPrice(item.price, "sum");
   cartItems.appendChild(itemData);
   saveCart();
 }
@@ -94,17 +96,18 @@ const addSectionProduct = (product) => {
   });
   itemsSection.appendChild(productData);
 
-  const btnsAddToCard = document.querySelectorAll('.item__add');
-  btnsAddToCard.forEach((btn) => btn.addEventListener('click', addCart));
+  const btnsAddToCard = document.querySelectorAll(".item__add");
+  btnsAddToCard.forEach((btn) => btn.addEventListener("click", addCart));
 };
 
-const fetchProduct = async () => fetch(`${site}/sites/MLB/search?q=computador`)
-  .then((answer) => answer.json())
-  .then((productData) => {
-    productData.results.forEach((result) => {
-      addSectionProduct(result);
+const fetchProduct = async () =>
+  fetch(`${site}/sites/MLB/search?q=computador`)
+    .then((answer) => answer.json())
+    .then((productData) => {
+      productData.results.forEach((result) => {
+        addSectionProduct(result);
+      });
     });
-  });
 
 /*==================== NAV MOBILE ====================*/
 const header = document.getElementById("header-mobile"),
@@ -129,4 +132,7 @@ window.onload = () => {
     document.querySelector(".loading").remove();
     document.querySelector(".display__none").classList.remove("display__none");
   });
+  btnCleanCart.addEventListener("click", getBtnEmprtyCart);
+  cartItems.innerHTML = localStorage.getItem("shopping");
+  cartItems.addEventListener("click", cartItemClickListener);
 };
