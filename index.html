@@ -5,21 +5,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Document</title>
+
+  <!--==================== UNICONS ====================-->
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+  <!--==================== TAILWIND ====================-->
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+  <!--==================== Arquivo css ====================-->
   <link rel="stylesheet" href="style.css" />
+
+  <title>Shopping cart</title>
 </head>
 
 <body class="body">
-  <div class="loading">loading...</div>
-  <section class="container">
-    <section class="items"></section>
-    <section class="cart">
+  <div class="flex justify-end" id="nav-cart">
+    <i class="uil uil-shopping-cart p-5 text-5xl cursor-pointer"></i>
+  </div>
+  <header class="fixed right-0 bg-white h-screen top-0 max-w-xs header-mobile" id="header-mobile">
+    <section class="cart p-5">
       <span class="cart__title">Carrinho de compras</span>
       <button class="empty-cart">Esvaziar carrinho</button>
       <ol id="cart__items" class="cart__items cart__items2"></ol>
       <p>Valor Total: R$ <span id='tprice' class="total-price">0</span></p>
     </section>
+    <i class="uil uil-times p-5 text-5xl cursor-pointer" id="nav-close"></i>
+  </header>
+  <main class="container flex flex-wrap">
   </section>
+    <section class="items display__none"></section>
+  </main>
   <script src="script.js"></script>
 </body>
 
