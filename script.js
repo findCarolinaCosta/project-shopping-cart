@@ -64,7 +64,7 @@ function cartItemClickListener(event) {
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement("li");
-  li.className = "cart__item";
+  li.className = "cart__item bg-gray-300 m-3 rounded";
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   return li;
 }
