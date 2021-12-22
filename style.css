@@ -97,7 +97,9 @@ h1 b {
 }
 
 .item .item__image {
-  width: 100%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 .item .item__add {

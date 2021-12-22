@@ -88,11 +88,11 @@ const addCart = (event) => {
     .then((dataItem) => receiveDataItem(dataItem));
 };
 
-const addSectionProduct = (product) => {
+const addSectionProduct = (product, thumbnail) => {
   const productData = createProductItemElement({
     sku: product.id,
     name: product.title,
-    image: product.thumbnail,
+    image: thumbnail,
   });
   itemsSection.appendChild(productData);
 
@@ -104,6 +104,15 @@ const fetchProduct = async () =>
   fetch(`${site}/sites/MLB/search?q=computador`)
     .then((answer) => answer.json())
     .then((productData) => {
+      productData.results.forEach(async (result) => {
+        const responseThumbnail = await fetch(
+          `https://api.mercadolibre.com/items/${result.id}`
+        );
+        const { pictures } = await responseThumbnail.json();
+        addSectionProduct(result, pictures[0].url);
+      });
+    });
+
 /*===================== SEARCH ======================*/
 const searchBtn = document.getElementById("search__button");
 
@@ -156,8 +165,8 @@ if (navClose) {
 
 window.onload = () => {
   fetchProduct().then(() => {
-    document.querySelector(".loading").remove();
-    document.querySelector(".display__none").classList.remove("display__none");
+    document.querySelector(".loading").classList.add("display__none");
+    document.querySelector("#main__content").classList.remove("display__none");
   });
   btnCleanCart.addEventListener("click", getBtnEmprtyCart);
   cartItems.innerHTML = localStorage.getItem("shopping");
