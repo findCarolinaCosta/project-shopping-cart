@@ -104,10 +104,37 @@ const fetchProduct = async () =>
   fetch(`${site}/sites/MLB/search?q=computador`)
     .then((answer) => answer.json())
     .then((productData) => {
-      productData.results.forEach((result) => {
-        addSectionProduct(result);
+/*===================== SEARCH ======================*/
+const searchBtn = document.getElementById("search__button");
+
+function getSearchValue() {
+  return document.getElementById("search__input").value;
+}
+
+function getNewSearch(event) {
+  const divMainContent = document.getElementById("main__content");
+
+  event.preventDefault();
+  Array.from(divMainContent.children).forEach((item) => item.remove());
+  document.querySelector(".loading").classList.remove("display__none");
+  fetch(`${site}/sites/MLB/search?q=${getSearchValue()}`)
+    .then((answer) => answer.json())
+    .then((productData) => {
+      productData.results.forEach(async (result) => {
+        const responseThumbnail = await fetch(
+          `https://api.mercadolibre.com/items/${result.id}`
+        );
+        const { pictures } = await responseThumbnail.json();
+        addSectionProduct(result, pictures[0].url);
       });
+    })
+    .then(() => {
+      document.querySelector(".loading").classList.add("display__none");
     });
+}
+
+searchBtn.addEventListener("click", (event) => getNewSearch(event));
+/*===================================================*/
 
 /*==================== NAV MOBILE ====================*/
 const header = document.getElementById("header-mobile"),
