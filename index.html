@@ -18,26 +18,40 @@
   <title>Shopping cart</title>
 </head>
 
-<body class="body">
-  <header class="flex sm:block bg-gray-600 sm:bg-opacity-0">
-    <div class="sm:flex sm:justify-between sm:bg-gray-600 sm:p-5">
+<body class="">
+  <header class="flex bg-gray-600 sm:block sm:bg-opacity-0">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:bg-gray-600 sm:p-5" id="header__content">
       <h1 class="align-middle m-auto sm:m-0">Shopping cart</h1>
-      <form class="flex sm:block sm:self-center">
-        <input type="text" class="m-2 p-1" id="input__search"></input>
-        <button type="button" id="button__search">Pesquisar</button>
+      <form class="flex relative">
+        <input
+          class="self-center border-2 border-primary bg-red transition px-2 h-10 rounded-md focus:outline-none text-black text-lg sm:px-5 pr-10 sm:pr-16 m-2 p-2 sm:h-12"
+          type="search" name="search" placeholder="Search"></input>
+        <button type="submit" class="self-center absolute right-0 focus:outline-none focus:bg-gray-600 sm:mr-3">
+          <svg class="text-black h-5 w-5 fill-current sm:h-6 sm:w-6" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+            viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+            width="512px" height="512px">
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+          </svg>
+        </button>
       </form>
     </div>
-    <div class="flex justify-end sm:hidden" id="nav-cart">
+    <div class="flex justify-end self-center sm:hidden" id="nav-cart">
       <i class="uil uil-shopping-cart p-3 text-5xl cursor-pointer"></i>
     </div>
-    <section class="fixed right-0 bg-white h-screen top-0 max-w-xs header-mobile sm:top-auto" id="header-mobile">
+    <section class="fixed right-0 bg-white h-screen top-0 max-w-xs header-mobile sm:absolute sm:top-auto"
+      id="header-mobile">
       <section class="cart p-5">
-        <span class="cart__title">Carrinho de compras</span>
-        <button class="empty-cart">Esvaziar carrinho</button>
-        <ol id="cart__items" class="cart__items cart__items2"></ol>
-        <p class="bg-green-200 mt-10">Valor Total: R$ <span id='tprice' class="total-price">0</span></p>
+        <p class="text-gray-500">Clique no produto para excluir</p>
+        <span class="cart__title sm:order-2">Carrinho de compras</span>
+        <button
+          class="empty-cart bg-red-500 hover:bg-red-600 focus:bg-red-800 text-white font-bold py-2 px-4 rounded focus:outline-none sm:order-2">Esvaziar
+          carrinho</button>
+        <ol id="cart__items" class="cart__items cart__items2 sm:order-3"></ol>
+        <p class="bg-green-200 mt-10 sm:order-1">Valor Total: R$ <span id='tprice' class="total-price">0</span></p>
       </section>
-      <i class="uil uil-times p-5 text-5xl cursor-pointer" id="nav-close"></i>
+      <i class="uil uil-times p-5 text-5xl cursor-pointer sm:hidden" id="nav-close"></i>
     </section>
   </header>
   <main class="container flex flex-wrap">

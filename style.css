@@ -130,3 +130,9 @@ h1 b {
     right: 0;
   }
 }
+
+@media (min-width: 767px) {
+  .header-mobile {
+    height: 1100vh;
+  }
+}
