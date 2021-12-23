@@ -30,11 +30,11 @@ function createCustomElement(element, className, innerText) {
 const getTotalPrice = (price, operation) => {
   const totalPrice = document.querySelector(".total-price");
   let total = 0;
-  if (totalPrice.innerText) total = parseFloat(totalPrice.innerText);
-  if (operation === "sum") total += price;
-  if (operation === "sub") total -= price;
-  totalPrice.innerText = total > 0 ? total : 0;
-  localStorage.setItem("total", total);
+  if (totalPrice.innerText) total = Number(totalPrice.innerText);
+  if (operation === "sum") total += Number(price);
+  if (operation === "sub") total -= Number(price);
+  totalPrice.innerText = total > 0 ? Number(total).toFixed(2) : 0;
+  localStorage.setItem("total", Number(total));
 };
 
 function createProductItemElement({ sku, name, image }) {
@@ -56,24 +56,36 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 function cartItemClickListener(event) {
-  event.target.remove(event);
+  event.target.closest("li").remove();
   saveCart();
-  const li = event.path[0];
+  const li = event.target.closest("li").children[0].children[1];
   getTotalPrice(li.innerText.split("PRICE: $").pop(), "sub");
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement("li");
+function createCartItemElement({ sku, name, salePrice, thumbnail }) {
+  const li = document.createElement("li"),
+    img = document.createElement("img"),
+    div = document.createElement("div"),
+    p = document.createElement("p");
+
   li.className = "cart__item bg-gray-300 m-3 rounded";
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  div.className = "div__cart-item";
+  img.className = "cart__img";
+  p.className = "cart-p";
+  img.src = thumbnail;
+  p.innerText = `${name} | PRICE: $${salePrice}`;
+  div.appendChild(img);
+  div.appendChild(p);
+  li.appendChild(div);
   return li;
 }
 
-function receiveDataItem(item) {
+function receiveDataItem(item, thumbnail) {
   const itemData = createCartItemElement({
     sku: item.id,
     name: item.title,
     salePrice: item.price,
+    thumbnail,
   });
   getTotalPrice(item.price, "sum");
   cartItems.appendChild(itemData);
@@ -85,7 +97,13 @@ const addCart = (event) => {
 
   fetch(`${site}/items/${itemId}`)
     .then((response) => response.json())
-    .then((dataItem) => receiveDataItem(dataItem));
+    .then(async (dataItem) => {
+      const responseThumbnail = await fetch(
+        `https://api.mercadolibre.com/items/${itemId}`
+      );
+      const { pictures } = await responseThumbnail.json();
+      receiveDataItem(dataItem, pictures[0].url);
+    });
 };
 
 const addSectionProduct = (product, thumbnail) => {
