@@ -26,7 +26,7 @@ In shopping cart the following technologies are used:
 
 Make a git clone of the repository.
 ```
-git clone https://github.com/findCarolinaCosta/project-recipes-app.git 
+git clone https://github.com/findCarolinaCosta/project-shopping-cart.git 
 ```
 
 Click on the index.html file, to open in browser.
